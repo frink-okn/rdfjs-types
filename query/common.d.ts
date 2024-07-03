@@ -144,6 +144,14 @@ export interface QueryBindings<SupportedMetadataType> extends BaseQuery, BaseMet
 }
 
 /**
+ * Query object that returns paths.
+ */
+export interface QueryPaths<SupportedMetadataType> extends BaseQuery, BaseMetadataQuery<RDF.Variable, { variables: RDF.Variable[] }, SupportedMetadataType> {
+  resultType: 'paths';
+  execute(opts?: QueryExecuteOptions<RDF.Variable>): Promise<ResultStream<Bindings>>;
+}
+
+/**
  * Query object that returns quads.
  */
 export interface QueryQuads<SupportedMetadataType> extends BaseQuery, BaseMetadataQuery<QuadTermName, unknown, SupportedMetadataType> {

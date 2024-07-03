@@ -122,6 +122,9 @@ export type StringSparqlQueryable<SupportedResultType, QueryStringContextType ex
   & (SupportedResultType extends BindingsResultSupport ? {
   queryBindings(query: string, context?: QueryStringContextType): Promise<ResultStream<Bindings>>;
 } : unknown)
+  & (SupportedResultType extends PathsResultSupport ? {
+  queryPaths(query: string, context?: QueryStringContextType): Promise<ResultStream<Bindings>>;
+} : unknown)
   & (SupportedResultType extends BooleanResultSupport ? {
   queryBoolean(query: string, context?: QueryStringContextType): Promise<boolean>;
 } : unknown)
@@ -142,6 +145,9 @@ export type StringSparqlQueryable<SupportedResultType, QueryStringContextType ex
  & (SupportedResultType extends BindingsResultSupport ? {
  queryBindings(query: AlgebraType, context?: QueryAlgebraContextType): Promise<ResultStream<Bindings>>;
 } : unknown)
+ & (SupportedResultType extends PathsResultSupport ? {
+  queryPaths(query: AlgebraType, context?: QueryAlgebraContextType): Promise<ResultStream<Bindings>>;
+} : unknown)
  & (SupportedResultType extends BooleanResultSupport ? {
  queryBoolean(query: AlgebraType, context?: QueryAlgebraContextType): Promise<boolean>;
 } : unknown)
@@ -153,8 +159,9 @@ export type StringSparqlQueryable<SupportedResultType, QueryStringContextType ex
 } : unknown)
 ;
 
-export type SparqlResultSupport = BindingsResultSupport & VoidResultSupport & QuadsResultSupport & BooleanResultSupport;
+export type SparqlResultSupport = BindingsResultSupport & PathsResultSupport & VoidResultSupport & QuadsResultSupport & BooleanResultSupport;
 export type BindingsResultSupport = { bindings: true };
+export type PathsResultSupport = { paths: true };
 export type VoidResultSupport = { void: true };
 export type QuadsResultSupport = { quads: true };
 export type BooleanResultSupport = { boolean: true };
