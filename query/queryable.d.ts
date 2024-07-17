@@ -2,7 +2,7 @@
 /* https://rdf.js.org/query-spec/ */
 
 import * as RDF from '../data-model';
-import { Bindings, Query, ResultStream } from './common';
+import { Bindings, Paths, Query, ResultStream } from './common';
 
 /**
  * Context properties provide a way to pass additional bits information to the query engine when executing a query.
@@ -123,7 +123,7 @@ export type StringSparqlQueryable<SupportedResultType, QueryStringContextType ex
   queryBindings(query: string, context?: QueryStringContextType): Promise<ResultStream<Bindings>>;
 } : unknown)
   & (SupportedResultType extends PathsResultSupport ? {
-  queryPaths(query: string, context?: QueryStringContextType): Promise<ResultStream<Bindings>>;
+  queryPaths(query: string, context?: QueryStringContextType): Promise<ResultStream<Paths>>;
 } : unknown)
   & (SupportedResultType extends BooleanResultSupport ? {
   queryBoolean(query: string, context?: QueryStringContextType): Promise<boolean>;
@@ -146,7 +146,7 @@ export type StringSparqlQueryable<SupportedResultType, QueryStringContextType ex
  queryBindings(query: AlgebraType, context?: QueryAlgebraContextType): Promise<ResultStream<Bindings>>;
 } : unknown)
  & (SupportedResultType extends PathsResultSupport ? {
-  queryPaths(query: AlgebraType, context?: QueryAlgebraContextType): Promise<ResultStream<Bindings>>;
+  queryPaths(query: AlgebraType, context?: QueryAlgebraContextType): Promise<ResultStream<Paths>>;
 } : unknown)
  & (SupportedResultType extends BooleanResultSupport ? {
  queryBoolean(query: AlgebraType, context?: QueryAlgebraContextType): Promise<boolean>;

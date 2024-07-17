@@ -144,11 +144,11 @@ export interface QueryBindings<SupportedMetadataType> extends BaseQuery, BaseMet
 }
 
 /**
- * Query object that returns paths.
+ * Query object that returns bindings.
  */
-export interface QueryPaths<SupportedMetadataType> extends BaseQuery, BaseMetadataQuery<RDF.Variable, { variables: RDF.Variable[] }, SupportedMetadataType> {
+export interface QueryPaths extends BaseQuery {
   resultType: 'paths';
-  execute(opts?: QueryExecuteOptions<RDF.Variable>): Promise<ResultStream<Bindings>>;
+  execute(): Promise<ResultStream<Paths>>;
 }
 
 /**
@@ -178,7 +178,7 @@ export interface QueryVoid extends BaseQuery {
 /**
  * Union type for the different query types.
  */
-export type Query<SupportedMetadataType> = QueryBindings<SupportedMetadataType> | QueryBoolean | QueryQuads<SupportedMetadataType> | QueryVoid;
+export type Query<SupportedMetadataType> = QueryBindings<SupportedMetadataType> | QueryPaths | QueryBoolean | QueryQuads<SupportedMetadataType> | QueryVoid;
 
 /**
  * Bindings represents the mapping of variables to RDF values using an immutable Map-like representation.
@@ -275,6 +275,20 @@ export interface Bindings extends Iterable<[RDF.Variable, RDF.Term]> {
     merger: (self: RDF.Term, other: RDF.Term, key: RDF.Variable) => RDF.Term,
     other: Bindings,
   ) => Bindings;
+}
+
+export interface Paths extends Iterable<[RDF.Variable, RDF.Term][]> {
+  type: 'paths';
+  /**
+   * Check if a binding exist for the given variable.
+   * @param key A variable term or string. If it is a string, no `?` prefix must be given.
+   */
+  has: (key: number) => boolean;
+  /**
+   * Obtain the binding value for the given variable.
+   * @param key A variable term or string. If it is a string, no `?` prefix must be given.
+   */
+  get: (key: RDF.Variable | string) => RDF.Term | undefined;
 }
 
 /**
