@@ -277,7 +277,7 @@ export interface Bindings extends Iterable<[RDF.Variable, RDF.Term]> {
   ) => Bindings;
 }
 
-export interface Paths extends Iterable<[RDF.Variable, RDF.Term][]> {
+export interface Path extends Iterable<Bindings> {
   type: 'paths';
   /**
    * Check if a binding exist for the given variable.
