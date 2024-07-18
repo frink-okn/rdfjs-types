@@ -277,8 +277,12 @@ export interface Bindings extends Iterable<[RDF.Variable, RDF.Term]> {
   ) => Bindings;
 }
 
-export interface Path extends Iterable<Bindings> {
+export interface Paths extends Iterable<Bindings> {
   type: 'paths';
+  /**
+   * The number of variable-value pairs.
+   */
+  size: number;
   /**
    * Check if a binding exist for the given variable.
    * @param key A variable term or string. If it is a string, no `?` prefix must be given.
@@ -289,6 +293,22 @@ export interface Path extends Iterable<Bindings> {
    * @param key A variable term or string. If it is a string, no `?` prefix must be given.
    */
   get: (key: RDF.Variable | string) => RDF.Term | undefined;
+  /**
+   * Iterator over all variable-value pairs.
+   */
+  [Symbol.iterator]: () => Iterator<Bindings>;
+  /**
+   * Return a list of bindings from the Path object
+   */
+  nodes: () => Bindings[];
+
+  // /**
+  //  * Iterate over all variable-value pairs.
+  //  * @param fn A callback that is called for each variable-value pair
+  //  *           with value as first argument, and variable as second argument.
+  //  */
+  // forEach: (fn: (value: Bindings) => any) => void;
+
 }
 
 /**
