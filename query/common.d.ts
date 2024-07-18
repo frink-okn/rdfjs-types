@@ -301,13 +301,12 @@ export interface Paths extends Iterable<Bindings> {
    * Return a list of bindings from the Path object
    */
   nodes: () => Bindings[];
-
-  // /**
-  //  * Iterate over all variable-value pairs.
-  //  * @param fn A callback that is called for each variable-value pair
-  //  *           with value as first argument, and variable as second argument.
-  //  */
-  // forEach: (fn: (value: Bindings) => any) => void;
+  /**
+   * Iterate over all variable-value pairs.
+   * @param fn A callback that is called for each variable-value pair
+   *           with value as first argument, and variable as second argument.
+   */
+  forEach: (fn: (value: Bindings) => any) => void;
 
 }
 
