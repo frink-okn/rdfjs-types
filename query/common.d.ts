@@ -144,11 +144,11 @@ export interface QueryBindings<SupportedMetadataType> extends BaseQuery, BaseMet
 }
 
 /**
- * Query object that returns bindings.
+ * Query object that returns paths.
  */
 export interface QueryPaths extends BaseQuery {
   resultType: 'paths';
-  execute(): Promise<ResultStream<Paths>>;
+  execute(): Promise<ResultStream<Path>>;
 }
 
 /**
@@ -277,34 +277,41 @@ export interface Bindings extends Iterable<[RDF.Variable, RDF.Term]> {
   ) => Bindings;
 }
 
+/**
+ * A Path represents the sequence of Bindings or "hops" that connect one node to another in a graph.
+ * Each Bindings object contains the subject - predicate - object triple that is one hop in the path.
+ * 
+ * A Path instance is created using the PathFactory.
+ * 
+ */
 export interface Path extends Iterable<Bindings> {
-  type: 'paths';
+  type: 'path';
   /**
-   * The number of variable-value pairs.
+   * The number of Bindings in this path.
    */
-  size: number;
+  length: number;
   /**
-   * Check if a binding exist for the given variable.
-   * @param key A variable term or string. If it is a string, no `?` prefix must be given.
+   * Check if the path contains the given Variable-Term pair.
+   * @param key A variable-term pair.
    */
-  has: (key: number) => boolean;
+  has: (key: [RDF.Variable, RDF.Term]) => boolean;
   /**
-   * Obtain the binding value for the given variable.
-   * @param key A variable term or string. If it is a string, no `?` prefix must be given.
+   * Adds a bindings object to the end of the path. Will also increment the path length by 1.
+   * @param key The Bindings object to be pushed.
    */
-  get: (key: RDF.Variable | string) => RDF.Term | undefined;
+  push: (key: Bindings) => boolean;
   /**
    * Iterator over all variable-value pairs.
    */
   [Symbol.iterator]: () => Iterator<Bindings>;
   /**
-   * Return a list of bindings from the Path object
+   * Return a list of Bindings from the Path object
    */
   nodes: () => Bindings[];
   /**
-   * Iterate over all variable-value pairs.
-   * @param fn A callback that is called for each variable-value pair
-   *           with value as first argument, and variable as second argument.
+   * Iterate over all Bindings.
+   * @param fn A callback that is called for each Binding
+   *           with value as first argument.
    */
   forEach: (fn: (value: Bindings) => any) => void;
 
@@ -325,4 +332,21 @@ export interface BindingsFactory {
    * @param bindings A Bindings object.
    */
   fromBindings: (bindings: Bindings) => Bindings;
+}
+
+/**
+ * PathFactory can create new instances of a Path.
+ */
+export interface PathFactory {
+  /**
+   * Create a new Paths object from the given Bindings entries.
+   * @param entries An array of entries, where each entry is a Binding.
+   */
+  path: (entries?: Bindings[]) => Path;
+
+  /**
+   * Create a copy of the given Path object using this factory.
+   * @param bindings A Path object.
+   */
+  fromPath: (path: Path) => Path;
 }

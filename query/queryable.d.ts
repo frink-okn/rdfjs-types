@@ -2,7 +2,7 @@
 /* https://rdf.js.org/query-spec/ */
 
 import * as RDF from '../data-model';
-import { Bindings, Paths, Query, ResultStream } from './common';
+import { Bindings, Path, Query, ResultStream } from './common';
 
 /**
  * Context properties provide a way to pass additional bits information to the query engine when executing a query.
@@ -122,8 +122,8 @@ export type StringSparqlQueryable<SupportedResultType, QueryStringContextType ex
   & (SupportedResultType extends BindingsResultSupport ? {
   queryBindings(query: string, context?: QueryStringContextType): Promise<ResultStream<Bindings>>;
 } : unknown)
-  & (SupportedResultType extends PathsResultSupport ? {
-  queryPaths(query: string, context?: QueryStringContextType): Promise<ResultStream<Paths>>;
+  & (SupportedResultType extends PathResultSupport ? {
+  queryPaths(query: string, context?: QueryStringContextType): Promise<ResultStream<Path>>;
 } : unknown)
   & (SupportedResultType extends BooleanResultSupport ? {
   queryBoolean(query: string, context?: QueryStringContextType): Promise<boolean>;
@@ -145,8 +145,8 @@ export type StringSparqlQueryable<SupportedResultType, QueryStringContextType ex
  & (SupportedResultType extends BindingsResultSupport ? {
  queryBindings(query: AlgebraType, context?: QueryAlgebraContextType): Promise<ResultStream<Bindings>>;
 } : unknown)
- & (SupportedResultType extends PathsResultSupport ? {
-  queryPaths(query: AlgebraType, context?: QueryAlgebraContextType): Promise<ResultStream<Paths>>;
+ & (SupportedResultType extends PathResultSupport ? {
+  queryPaths(query: AlgebraType, context?: QueryAlgebraContextType): Promise<ResultStream<Path>>;
 } : unknown)
  & (SupportedResultType extends BooleanResultSupport ? {
  queryBoolean(query: AlgebraType, context?: QueryAlgebraContextType): Promise<boolean>;
@@ -159,9 +159,9 @@ export type StringSparqlQueryable<SupportedResultType, QueryStringContextType ex
 } : unknown)
 ;
 
-export type SparqlResultSupport = BindingsResultSupport & PathsResultSupport & VoidResultSupport & QuadsResultSupport & BooleanResultSupport;
+export type SparqlResultSupport = BindingsResultSupport & PathResultSupport & VoidResultSupport & QuadsResultSupport & BooleanResultSupport;
 export type BindingsResultSupport = { bindings: true };
-export type PathsResultSupport = { paths: true };
+export type PathResultSupport = { paths: true };
 export type VoidResultSupport = { void: true };
 export type QuadsResultSupport = { quads: true };
 export type BooleanResultSupport = { boolean: true };
