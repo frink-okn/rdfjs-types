@@ -286,20 +286,21 @@ export interface Bindings extends Iterable<[RDF.Variable, RDF.Term]> {
  */
 export interface Path extends Iterable<Bindings> {
   type: 'path';
-  /**
-   * The number of Bindings in this path.
-   */
-  length: number;
   // /**
   //  * Check if the path contains the given Variable-Term pair.
   //  * @param key A variable-term pair.
   //  */
   // has: (key: [RDF.Variable, RDF.Term]) => boolean;
   /**
-   * Adds a bindings object to the end of the path. Will also increment the path length by 1.
-   * @param key The Bindings object to be pushed.
+   * Returns a number representing the length of the path
+   * @returns the length of the path
    */
-  push: (key: Bindings) => boolean;
+  size: () => number;
+  /**
+   * Adds a bindings object to the end of the path. Will also increment the path length by 1.
+   * @param node The Bindings object to be pushed.
+   */
+  push: (node: Bindings) => boolean;
   /**
    * Iterator over all variable-value pairs.
    */
