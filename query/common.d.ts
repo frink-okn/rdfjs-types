@@ -132,7 +132,7 @@ export interface BaseQuery {
    * Returns either a stream containing all the items that match the given query,
    * a boolean or void depending on the semantics of the given query.
    */
-  execute(opts?: any): Promise<ResultStream<any> | boolean | void>;
+  execute(opts?: any): Promise<ResultStream<any> | Array<Path> | boolean | void>;
 }
 
 /**
@@ -148,7 +148,7 @@ export interface QueryBindings<SupportedMetadataType> extends BaseQuery, BaseMet
  */
 export interface QueryPaths extends BaseQuery {
   resultType: 'paths';
-  execute(): Promise<ResultStream<Path>>;
+  execute(): Promise<ResultStream<Path> | Array<Path>>;
 }
 
 /**
