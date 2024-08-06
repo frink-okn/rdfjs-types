@@ -146,7 +146,7 @@ export type StringSparqlQueryable<SupportedResultType, QueryStringContextType ex
  queryBindings(query: AlgebraType, context?: QueryAlgebraContextType): Promise<ResultStream<Bindings>>;
 } : unknown)
  & (SupportedResultType extends PathResultSupport ? {
-  queryPaths(query: AlgebraType, context?: QueryAlgebraContextType): Promise<ResultStream<Path> | Array<Path>>;
+ queryPaths(query: AlgebraType, context?: QueryAlgebraContextType): Promise<ResultStream<Path> | Array<Path>>;
 } : unknown)
  & (SupportedResultType extends BooleanResultSupport ? {
  queryBoolean(query: AlgebraType, context?: QueryAlgebraContextType): Promise<boolean>;

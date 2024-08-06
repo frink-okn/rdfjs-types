@@ -298,7 +298,7 @@ export interface Path extends Iterable<Bindings> {
   size: () => number;
   /**
    * Adds a bindings object to the end of the path. Will also increment the path length by 1.
-   * @param key The Bindings object to be pushed.
+   * @param node The Bindings object to be pushed.
    */
   push: (node: Bindings) => boolean;
   /**
